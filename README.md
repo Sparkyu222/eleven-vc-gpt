@@ -22,10 +22,10 @@ $ pip install openai elevenslabs
 And now, you're settled!
 
 ## Run
-To start of your assistant, just launch the following script:
+To start your assistant, just launch the following script:
 
 ```bash
-python main.py
+$ python main.py
 ```
 
 This will initiate a basic turn-by-turn conversation with your assistant. After a few seconds — the time taken for ElevenLabs' API to infer and transfer the audio data — the voice of your choice will read ChatGPT's response.
