@@ -9,6 +9,7 @@ First, copy the `.env-placeholder` file and rename it `.env`. In the copied file
 ```json
 {
 	"openai": "YOUR OPENAI API KEY HERE",
+	"gpt-model": "OPENAI LLM MODEL",
 	"elevenlabs": "YOUR ELEVENLABS API KEY HERE",
 	"voiceID": "THE ID OF THE VOICE OF YOUR CHOICE FROM ELEVENLABS"
 }

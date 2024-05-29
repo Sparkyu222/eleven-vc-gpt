@@ -1,7 +1,8 @@
 from openai import OpenAI
 import sys
 import json
-from elevenlabs import *
+from elevenlabs import play, stream, save, Voice
+from elevenlabs.client import ElevenLabs
 
 ### This is a test file!
 ### This script stream the token from ChatGPT's completion to ElevenLabs's API.
@@ -24,12 +25,14 @@ client = OpenAI(
     api_key=env["openai"]
     )
 
-set_api_key(env["elevenlabs"])
+ttsClient = ElevenLabs(
+    api_key=env["elevenlabs"]
+)
 
 msg = input("Me : ")
 
 completion = client.chat.completions.create(
-    model = "gpt-3.5-turbo",
+    model = env["gpt-model"],
     messages = [
         {"role": "system", "content": "You are a helpful assistant"},
         {"role": "user", "content": msg}
@@ -50,7 +53,7 @@ def streamCompletion(completion):
         sys.stdout.flush()
         yield chunk.choices[0].delta.content
 
-audio = generate(text=streamCompletion(completion), voice=Voice(voice_id=env['voiceID']), model="eleven_multilingual_v2", stream=True)
+audio = ttsClient.generate(text=streamCompletion(completion), voice=Voice(voice_id=env['voiceID']), model="eleven_multilingual_v2", stream=True)
 stream(audio)
 
 

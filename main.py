@@ -1,5 +1,6 @@
 from openai import OpenAI
-from elevenlabs import *
+from elevenlabs import play, stream, save, Voice
+from elevenlabs.client import ElevenLabs
 import sys
 import json
 import threading
@@ -28,14 +29,14 @@ client = OpenAI(
     api_key=env["openai"]
     )
 
-set_api_key(env["elevenlabs"])
-
-
+ttsClient = ElevenLabs(
+    api_key=env["elevenlabs"]
+)
 
 ## FUNCTIONS DEFINITION
 
 def txtToSpeech(txt):
-    audio = generate(text=txt, voice=Voice(voice_id=env['voiceID']), model="eleven_multilingual_v2", stream=True)
+    audio = ttsClient.generate(text=txt, voice=Voice(voice_id=env['voiceID']), model="eleven_multilingual_v2", stream=True)
     stream(audio)
 
 
@@ -47,7 +48,7 @@ while True:
     msg = input("Me : ")
 
     completion = client.chat.completions.create(
-        model = "gpt-3.5-turbo",
+        model = env["gpt-model"],
         messages = [
             {"role": "system", "content": "You are a helpful assistant, you will only respond with short sentences"},
             {"role": "user", "content": msg}
